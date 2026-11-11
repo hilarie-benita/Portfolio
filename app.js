@@ -51,9 +51,17 @@ filterList.addEventListener('click',e=>{
 container.addEventListener('click',e=>{
  const button = e.target.closest('[data-project]');
  if (!button) return;
- const p = projects[Number(button.dataset.project)];
+ openCaseStudy(projects[Number(button.dataset.project)]);
+});
+function openCaseStudy(p) {
  document.getElementById('detail').innerHTML = visual(p)+'<div class="detail-body">'+metadata(p)+'<h2 id="case-title">'+p.title+'</h2><h3>Project question</h3><p>'+p.question+'</p><h3>My work</h3><ul>'+p.work.map(point=>'<li>'+point+'</li>').join('')+'</ul><div class="stack">'+p.tools.map(tool=>'<span>'+tool+'</span>').join('')+'</div>'+(p.repo?'<a class="outline" href="'+github+p.repo+'" target="_blank" rel="noopener noreferrer">View GitHub repository ↗</a>':'')+evidence(p)+'</div>';
  dialog.showModal();
+}
+document.getElementById('skills').addEventListener('click',e=>{
+ const button=e.target.closest('[data-case-link]');
+ if (!button) return;
+ const project=projects.find(p=>p.title===button.dataset.caseLink);
+ if (project) openCaseStudy(project);
 });
 dialog.addEventListener('change',e=>{
  if (e.target.id==='plot-select') document.getElementById('plot').innerHTML=climateFigure(Number(e.target.value));
