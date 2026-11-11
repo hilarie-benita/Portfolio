@@ -61,7 +61,9 @@ document.getElementById('skills').addEventListener('click',e=>{
  const button=e.target.closest('[data-case-link]');
  if (!button) return;
  const project=projects.find(p=>p.title===button.dataset.caseLink);
- if (project) openCaseStudy(project);
+ if (!project || typeof dialog.showModal !== 'function') return;
+ openCaseStudy(project);
+ e.preventDefault();
 });
 dialog.addEventListener('change',e=>{
  if (e.target.id==='plot-select') document.getElementById('plot').innerHTML=climateFigure(Number(e.target.value));
